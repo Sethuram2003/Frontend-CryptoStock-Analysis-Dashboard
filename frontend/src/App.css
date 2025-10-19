@@ -986,3 +986,152 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* News Feed Enhancements */
+.news-loading, .news-error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+.loading-spinner.small {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.news-summary {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.news-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.news-tag {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  background: var(--bg-dark);
+  border-radius: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Predictions List */
+.predictions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.prediction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: var(--bg-dark);
+  border-radius: 0.75rem;
+}
+
+.prediction-symbol {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.prediction-details {
+  text-align: right;
+}
+
+.prediction-price, .prediction-target {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.prediction-return {
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.prediction-return.positive {
+  color: #10b981;
+}
+
+.prediction-return.negative {
+  color: #ef4444;
+}
+
+/* Performance Metrics */
+.performance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--bg-dark);
+  border-radius: 0.5rem;
+}
+
+.metric label {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.metric span {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.metric .negative {
+  color: #ef4444;
+}
+
+/* Stock Actions */
+.stock-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}

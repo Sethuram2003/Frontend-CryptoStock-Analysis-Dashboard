@@ -30,19 +30,19 @@ const StockCard = ({ stock }) => {
       </div>
 
       <div className="stock-price">
-        <span className="price">${stock.price?.toLocaleString() || stock.price_usd?.toLocaleString()}</span>
+        <span className="price">${stock.current_price?.toLocaleString()}</span>
         <span 
           className="price-change"
-          style={{ color: getTrendColor(stock.change || stock.change_24h) }}
+          style={{ color: getTrendColor(stock.price_change_percentage_24h) }}
         >
-          {getTrendIcon(stock.change || stock.change_24h)} {Math.abs(stock.change || stock.change_24h)}%
+          {getTrendIcon(stock.price_change_percentage_24h)} {stock.price_change_percentage_24h.toFixed(2)}%
         </span>
       </div>
 
       <div className="stock-stats">
         <div className="stat">
           <label>Volume</label>
-          <span>{(stock.volume / 1e6).toFixed(1)}M</span>
+          <span>{(stock.volume_24h / 1e6).toFixed(1)}M</span>
         </div>
         <div className="stat">
           <label>P/E Ratio</label>
@@ -76,6 +76,9 @@ const StockCard = ({ stock }) => {
                 'var(--gradient-secondary)' : 'var(--danger-color)'
             }}
           ></div>
+        </div>
+        <div className="prediction-price">
+          Est: ${stock.prediction_price_7d?.toLocaleString()}
         </div>
       </div>
 

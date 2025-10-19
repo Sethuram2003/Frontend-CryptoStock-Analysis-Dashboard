@@ -30,12 +30,12 @@ const CryptoCard = ({ crypto }) => {
       </div>
 
       <div className="crypto-price">
-        <span className="price">${crypto.price_usd.toLocaleString()}</span>
+        <span className="price">${crypto.current_price.toLocaleString()}</span>
         <span 
           className="price-change"
-          style={{ color: getTrendColor(crypto.change_24h) }}
+          style={{ color: getTrendColor(crypto.price_change_percentage_24h) }}
         >
-          {getTrendIcon(crypto.change_24h)} {Math.abs(crypto.change_24h)}%
+          {getTrendIcon(crypto.price_change_percentage_24h)} {crypto.price_change_percentage_24h.toFixed(2)}%
         </span>
       </div>
 
@@ -68,6 +68,9 @@ const CryptoCard = ({ crypto }) => {
                 'var(--gradient-secondary)' : 'var(--danger-color)'
             }}
           ></div>
+        </div>
+        <div className="prediction-price">
+          Est: ${crypto.prediction_price_7d.toLocaleString()}
         </div>
       </div>
     </div>

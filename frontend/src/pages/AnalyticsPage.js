@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import { useCryptos, useStocks, useSentimentAnalysis, usePredictions } from '../hooks/useMockApi';
 
 const AnalyticsPage = () => {
+  const { data: cryptoData } = useCryptos();
+  const { data: stockData } = useStocks();
+  const { data: sentimentData } = useSentimentAnalysis();
+  const { data: predictionsData } = usePredictions();
+  
   const [selectedMetric, setSelectedMetric] = useState('sentiment');
 
   const metrics = [
@@ -10,13 +16,13 @@ const AnalyticsPage = () => {
     { id: 'correlation', label: 'Correlation', icon: '🔄' },
   ];
 
-  const sentimentData = [
-    { asset: 'BTC', sentiment: 78, trend: 'bullish', confidence: 82 },
-    { asset: 'ETH', sentiment: 65, trend: 'neutral', confidence: 71 },
-    { asset: 'AAPL', sentiment: 75, trend: 'bullish', confidence: 68 },
-    { asset: 'TSLA', sentiment: 58, trend: 'bearish', confidence: 72 },
-    { asset: 'GOOGL', sentiment: 62, trend: 'neutral', confidence: 55 },
-  ];
+  const cryptos = cryptoData?.cryptos || [];
+  const stocks = stockData?.stocks || [];
+  const sentimentAnalysis = sentimentData?.analysis || [];
+  const predictions = predictionsData?.predictions || [];
+
+  // Combine all assets for analytics
+  const allAssets = [...cryptos, ...stocks];
 
   return (
     <div className="analytics-page">
@@ -86,10 +92,10 @@ const AnalyticsPage = () => {
               <div>Confidence</div>
             </div>
             <div className="table-body">
-              {sentimentData.map((item, index) => (
+              {sentimentAnalysis.slice(0, 8).map((item, index) => (
                 <div key={index} className="table-row">
                   <div className="asset-cell">
-                    <span className="asset-symbol">{item.asset}</span>
+                    <span className="asset-symbol">{item.symbol}</span>
                   </div>
                   <div className="sentiment-cell">
                     <div className="sentiment-score">{item.sentiment}</div>
@@ -133,6 +139,29 @@ const AnalyticsPage = () => {
           </div>
         </div>
 
+        {/* Top Predictions */}
+        <div className="card">
+          <h3 className="card-title">Top Predictions</h3>
+          <div className="predictions-list">
+            {predictions.slice(0, 5).map((prediction, index) => (
+              <div key={index} className="prediction-item">
+                <div className="prediction-symbol">{prediction.symbol}</div>
+                <div className="prediction-details">
+                  <div className="prediction-price">
+                    Current: ${prediction.current_price.toLocaleString()}
+                  </div>
+                  <div className="prediction-target">
+                    7D Target: ${prediction.prediction_7d.toLocaleString()}
+                  </div>
+                  <div className={`prediction-return ${prediction.expected_return_7d >= 0 ? 'positive' : 'negative'}`}>
+                    {prediction.expected_return_7d >= 0 ? '+' : ''}{prediction.expected_return_7d}%
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Risk Assessment */}
         <div className="card">
           <h3 className="card-title">Risk Assessment</h3>
@@ -157,6 +186,29 @@ const AnalyticsPage = () => {
                 <div className="risk-fill high" style={{ width: '75%' }}></div>
               </div>
               <div className="risk-value">High</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Performance Metrics */}
+        <div className="card">
+          <h3 className="card-title">Performance Metrics</h3>
+          <div className="performance-metrics">
+            <div className="metric">
+              <label>Sharpe Ratio</label>
+              <span>1.24</span>
+            </div>
+            <div className="metric">
+              <label>Alpha</label>
+              <span>0.08</span>
+            </div>
+            <div className="metric">
+              <label>Beta</label>
+              <span>1.12</span>
+            </div>
+            <div className="metric">
+              <label>Max Drawdown</label>
+              <span className="negative">-8.5%</span>
             </div>
           </div>
         </div>

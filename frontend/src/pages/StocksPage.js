@@ -1,94 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import StockCard from '../components/stocks/StockCard';
 import StockChart from '../components/stocks/StockChart';
+import { useStocks, useMarketOverview } from '../hooks/useMockApi';
 
 const StocksPage = () => {
-  const [stocks, setStocks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: stockData, loading, error } = useStocks();
+  const { data: marketData } = useMarketOverview();
   const [selectedStock, setSelectedStock] = useState(null);
   const [timeRange, setTimeRange] = useState('1m');
-
-  useEffect(() => {
-    const fetchStocks = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('http://localhost:8001/stocks');
-        if (!response.ok) throw new Error('Failed to fetch stock data');
-        const data = await response.json();
-        setStocks(data.stocks || []);
-        if (data.stocks && data.stocks.length > 0) {
-          setSelectedStock(data.stocks[0]);
-        }
-      } catch (error) {
-        console.error('Error fetching stock data:', error);
-        // Fallback dummy data
-        const dummyStocks = [
-          {
-            symbol: 'AAPL',
-            name: 'Apple Inc.',
-            price: 182.63,
-            change: 1.25,
-            volume: 58392000,
-            market_cap: 2860000000000,
-            pe_ratio: 29.5,
-            dividend_yield: 0.5,
-            sentiment: 75,
-            prediction_trend: 1,
-            prediction_confidence: 68,
-            exchange: 'NASDAQ'
-          },
-          {
-            symbol: 'GOOGL',
-            name: 'Alphabet Inc.',
-            price: 138.21,
-            change: -0.45,
-            volume: 28746500,
-            market_cap: 1750000000000,
-            pe_ratio: 24.8,
-            dividend_yield: 0.0,
-            sentiment: 62,
-            prediction_trend: 1,
-            prediction_confidence: 55,
-            exchange: 'NASDAQ'
-          },
-          {
-            symbol: 'TSLA',
-            name: 'Tesla Inc.',
-            price: 234.50,
-            change: 3.2,
-            volume: 98346500,
-            market_cap: 745000000000,
-            pe_ratio: 68.2,
-            dividend_yield: 0.0,
-            sentiment: 58,
-            prediction_trend: -1,
-            prediction_confidence: 72,
-            exchange: 'NASDAQ'
-          },
-          {
-            symbol: 'MSFT',
-            name: 'Microsoft Corporation',
-            price: 378.85,
-            change: 0.8,
-            volume: 23456700,
-            market_cap: 2810000000000,
-            pe_ratio: 32.1,
-            dividend_yield: 0.7,
-            sentiment: 80,
-            prediction_trend: 1,
-            prediction_confidence: 75,
-            exchange: 'NASDAQ'
-          }
-        ];
-        setStocks(dummyStocks);
-        setSelectedStock(dummyStocks[0]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStocks();
-  }, []);
 
   if (loading) {
     return (
@@ -97,6 +16,27 @@ const StocksPage = () => {
         <p>Loading stock market data...</p>
       </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <h3>Unable to load data</h3>
+        <p>{error}</p>
+        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const stocks = stockData?.stocks || [];
+  const overview = marketData?.overview || {};
+
+  // Set default selected stock if not set
+  if (!selectedStock && stocks.length > 0) {
+    setSelectedStock(stocks[0]);
   }
 
   return (
@@ -150,11 +90,11 @@ const StocksPage = () => {
                   </div>
                 </div>
                 <div className="stock-list-price">
-                  <div className="price">${stock.price?.toLocaleString()}</div>
+                  <div className="price">${stock.current_price?.toLocaleString()}</div>
                   <div 
-                    className={`change ${stock.change >= 0 ? 'positive' : 'negative'}`}
+                    className={`change ${stock.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}`}
                   >
-                    {stock.change >= 0 ? '+' : ''}{stock.change}%
+                    {stock.price_change_percentage_24h >= 0 ? '+' : ''}{stock.price_change_percentage_24h.toFixed(2)}%
                   </div>
                 </div>
               </div>

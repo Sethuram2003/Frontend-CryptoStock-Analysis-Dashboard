@@ -9,13 +9,18 @@ const CryptoChart = ({ crypto, timeRange }) => {
     );
   }
 
+  // Safe access to properties with fallbacks
+  const price = crypto.price_usd || 0;
+  const change24h = crypto.change_24h || 0;
+  const marketCap = crypto.market_cap || 0;
+
   return (
     <div className="crypto-chart">
       <div className="chart-header">
         <div className="chart-price-info">
-          <div className="current-price">${crypto.price_usd.toLocaleString()}</div>
-          <div className={`price-change ${crypto.change_24h >= 0 ? 'positive' : 'negative'}`}>
-            {crypto.change_24h >= 0 ? '+' : ''}{crypto.change_24h}% (24h)
+          <div className="current-price">${price.toLocaleString()}</div>
+          <div className={`price-change ${change24h >= 0 ? 'positive' : 'negative'}`}>
+            {change24h >= 0 ? '+' : ''}{change24h}% (24h)
           </div>
         </div>
       </div>
@@ -29,15 +34,15 @@ const CryptoChart = ({ crypto, timeRange }) => {
         <div className="chart-stats">
           <div className="chart-stat">
             <label>24h High</label>
-            <span>${(crypto.price_usd * 1.02).toLocaleString()}</span>
+            <span>${((price || 0) * 1.02).toLocaleString()}</span>
           </div>
           <div className="chart-stat">
             <label>24h Low</label>
-            <span>${(crypto.price_usd * 0.98).toLocaleString()}</span>
+            <span>${((price || 0) * 0.98).toLocaleString()}</span>
           </div>
           <div className="chart-stat">
             <label>Market Cap</label>
-            <span>${(crypto.market_cap / 1e9).toFixed(2)}B</span>
+            <span>${((marketCap || 0) / 1e9).toFixed(2)}B</span>
           </div>
         </div>
       </div>

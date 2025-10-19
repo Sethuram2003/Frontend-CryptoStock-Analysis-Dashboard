@@ -1,86 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CryptoCard from '../components/crypto/CryptoCard';
 import CryptoChart from '../components/crypto/CryptoChart';
+import { useCryptos, useMarketOverview } from '../hooks/useMockApi';
 
 const CryptoPage = () => {
-  const [cryptos, setCryptos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: cryptoData, loading, error } = useCryptos();
+  const { data: marketData } = useMarketOverview();
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [timeRange, setTimeRange] = useState('7d');
-
-  useEffect(() => {
-    const fetchCryptos = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('http://localhost:8001/cryptos');
-        if (!response.ok) throw new Error('Failed to fetch crypto data');
-        const data = await response.json();
-        setCryptos(data.cryptos || []);
-        if (data.cryptos && data.cryptos.length > 0) {
-          setSelectedCrypto(data.cryptos[0]);
-        }
-      } catch (error) {
-        console.error('Error fetching crypto data:', error);
-        // Fallback dummy data
-        const dummyCryptos = [
-          {
-            symbol: 'BTC',
-            name: 'Bitcoin',
-            price_usd: 43250.75,
-            change_24h: 2.34,
-            market_cap: 845000000000,
-            volume_24h: 18500000000,
-            sentiment: 78,
-            prediction_trend: 1,
-            prediction_confidence: 82,
-            image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png'
-          },
-          {
-            symbol: 'ETH',
-            name: 'Ethereum',
-            price_usd: 2580.40,
-            change_24h: -1.2,
-            market_cap: 310000000000,
-            volume_24h: 12000000000,
-            sentiment: 65,
-            prediction_trend: 1,
-            prediction_confidence: 71,
-            image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
-          },
-          {
-            symbol: 'ADA',
-            name: 'Cardano',
-            price_usd: 0.52,
-            change_24h: 0.8,
-            market_cap: 18500000000,
-            volume_24h: 450000000,
-            sentiment: 72,
-            prediction_trend: 1,
-            prediction_confidence: 65,
-            image: 'https://cryptologos.cc/logos/cardano-ada-logo.png'
-          },
-          {
-            symbol: 'DOT',
-            name: 'Polkadot',
-            price_usd: 7.25,
-            change_24h: -2.1,
-            market_cap: 9300000000,
-            volume_24h: 280000000,
-            sentiment: 58,
-            prediction_trend: -1,
-            prediction_confidence: 60,
-            image: 'https://cryptologos.cc/logos/polkadot-new-dot-logo.png'
-          }
-        ];
-        setCryptos(dummyCryptos);
-        setSelectedCrypto(dummyCryptos[0]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCryptos();
-  }, []);
 
   if (loading) {
     return (
@@ -89,6 +16,27 @@ const CryptoPage = () => {
         <p>Loading cryptocurrency data...</p>
       </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <h3>Unable to load data</h3>
+        <p>{error}</p>
+        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const cryptos = cryptoData?.cryptos || [];
+  const overview = marketData?.overview || {};
+
+  // Set default selected crypto if not set
+  if (!selectedCrypto && cryptos.length > 0) {
+    setSelectedCrypto(cryptos[0]);
   }
 
   return (
@@ -142,11 +90,11 @@ const CryptoPage = () => {
                   </div>
                 </div>
                 <div className="crypto-list-price">
-                  <div className="price">${crypto.price_usd.toLocaleString()}</div>
+                  <div className="price">${crypto.current_price.toLocaleString()}</div>
                   <div 
-                    className={`change ${crypto.change_24h >= 0 ? 'positive' : 'negative'}`}
+                    className={`change ${crypto.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}`}
                   >
-                    {crypto.change_24h >= 0 ? '+' : ''}{crypto.change_24h}%
+                    {crypto.price_change_percentage_24h >= 0 ? '+' : ''}{crypto.price_change_percentage_24h.toFixed(2)}%
                   </div>
                 </div>
               </div>
@@ -160,19 +108,19 @@ const CryptoPage = () => {
           <div className="market-stats">
             <div className="market-stat">
               <label>Total Market Cap</label>
-              <span>$1.72T</span>
+              <span>${(overview.total_market_cap / 1e12).toFixed(2)}T</span>
             </div>
             <div className="market-stat">
               <label>24h Volume</label>
-              <span>$68.4B</span>
+              <span>${(overview.total_volume_24h / 1e9).toFixed(2)}B</span>
             </div>
             <div className="market-stat">
               <label>BTC Dominance</label>
-              <span>52.3%</span>
+              <span>{overview.btc_dominance?.toFixed(1) || '52.3'}%</span>
             </div>
             <div className="market-stat">
               <label>Fear & Greed Index</label>
-              <span className="greed">74 (Greed)</span>
+              <span className="greed">{overview.fear_greed_index || '74'} (Greed)</span>
             </div>
           </div>
         </div>

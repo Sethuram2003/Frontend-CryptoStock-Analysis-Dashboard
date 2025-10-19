@@ -1,41 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CryptoCard from '../components/crypto/CryptoCard';
 import StockCard from '../components/stocks/StockCard';
 import PredictionChart from '../components/sentiment/PredictionChart';
 import NewsFeed from '../components/sentiment/NewsFeed';
+import { useCryptos, useStocks, useMarketOverview } from '../hooks/useMockApi';
 
 const Dashboard = () => {
-  const [cryptos, setCryptos] = useState([]);
-  const [stocks, setStocks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: cryptoData, loading: cryptoLoading, error: cryptoError } = useCryptos();
+  const { data: stockData, loading: stockLoading, error: stockError } = useStocks();
+  const { data: marketData } = useMarketOverview();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        
-        // Fetch crypto data
-        const cryptoResponse = await fetch('http://localhost:8001/cryptos');
-        if (!cryptoResponse.ok) throw new Error('Failed to fetch crypto data');
-        const cryptoData = await cryptoResponse.json();
-        
-        // Fetch stock data
-        const stockResponse = await fetch('http://localhost:8001/stocks');
-        if (!stockResponse.ok) throw new Error('Failed to fetch stock data');
-        const stockData = await stockResponse.json();
-
-        setCryptos(cryptoData.cryptos || []);
-        setStocks(stockData.stocks || []);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const loading = cryptoLoading || stockLoading;
+  const error = cryptoError || stockError;
 
   if (loading) {
     return (
@@ -59,6 +35,10 @@ const Dashboard = () => {
     );
   }
 
+  const cryptos = cryptoData?.cryptos || [];
+  const stocks = stockData?.stocks || [];
+  const overview = marketData?.overview || {};
+
   return (
     <div className="dashboard">
       {/* Market Overview */}
@@ -66,13 +46,19 @@ const Dashboard = () => {
         <div className="card grid-wide">
           <div className="card-header">
             <h2 className="card-title">Market Overview</h2>
-            <div className="time-filter">
-              <select className="filter-select">
-                <option>24H</option>
-                <option>7D</option>
-                <option>1M</option>
-                <option>1Y</option>
-              </select>
+            <div className="market-overview-stats">
+              <div className="market-stat-large">
+                <label>Total Market Cap</label>
+                <span>${(overview.total_market_cap / 1e12).toFixed(2)}T</span>
+              </div>
+              <div className="market-stat-large">
+                <label>24h Volume</label>
+                <span>${(overview.total_volume_24h / 1e9).toFixed(2)}B</span>
+              </div>
+              <div className="market-stat-large">
+                <label>Fear & Greed</label>
+                <span className="greed">{overview.fear_greed_index} (Greed)</span>
+              </div>
             </div>
           </div>
           <PredictionChart data={[...cryptos.slice(0, 3), ...stocks.slice(0, 3)]} />
