@@ -1,93 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
+import './App.css';
+import Header from './components/common/Header';
+import Sidebar from './components/common/Sidebar';
+import Dashboard from './pages/Dashboard';
+import CryptoPage from './pages/CryptoPage';
+import StocksPage from './pages/StocksPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 
 function App() {
-  const [cryptos, setCryptos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    fetch("http://localhost:8000/cryptos")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch crypto data");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCryptos(data.cryptos || []);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'crypto':
+        return <CryptoPage />;
+      case 'stocks':
+        return <StocksPage />;
+      case 'analytics':
+        return <AnalyticsPage />;
+      default:
+        return <Dashboard />;
+    }
+  };
 
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        padding: "20px",
-        backgroundColor: "#f7f9fc",
-        minHeight: "100vh",
-      }}
-    >
-      <h1 style={{ textAlign: "center", color: "#333" }}>
-        💰 Crypto Dashboard (Dummy Data)
-      </h1>
-
-      {loading ? (
-        <p style={{ textAlign: "center" }}>Loading data...</p>
-      ) : error ? (
-        <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: "20px",
-            marginTop: "30px",
-          }}
-        >
-          {cryptos.map((crypto) => (
-            <div
-              key={crypto.symbol}
-              style={{
-                backgroundColor: "white",
-                borderRadius: "12px",
-                padding: "20px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                textAlign: "center",
-              }}
-            >
-              <h2>{crypto.name}</h2>
-              <p>
-                <strong>Symbol:</strong> {crypto.symbol}
-              </p>
-              <p>
-                <strong>Price (USD):</strong> ${crypto.price_usd.toLocaleString()}
-              </p>
-              <p
-                style={{
-                  color: crypto.change_24h >= 0 ? "green" : "red",
-                  fontWeight: "bold",
-                }}
-              >
-                24h Change: {crypto.change_24h}%
-              </p>
-              <p>
-                <strong>Volume (24h):</strong>{" "}
-                ${crypto.volume_24h.toLocaleString()}
-              </p>
-              <p>
-                <strong>Market Cap:</strong>{" "}
-                ${crypto.market_cap.toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="app">
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+      />
+      <div className="main-content">
+        <Header 
+          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+          currentView={activeTab}
+        />
+        <main className="content-area">
+          {renderContent()}
+        </main>
+      </div>
     </div>
   );
 }
