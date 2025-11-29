@@ -1,0 +1,33 @@
+.header {
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  padding: 0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.header-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #c084fc;
+}
+
+.header-subtitle {
+  color: #d1d5db;
+  font-size: 1rem;
+  margin: 0;
+}

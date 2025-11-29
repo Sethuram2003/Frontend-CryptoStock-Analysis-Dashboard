@@ -1,0 +1,127 @@
+.sentiment-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .sentiment-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sentiment-overview,
+.articles-panel {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  transition: all 0.3s ease;
+}
+
+.sentiment-overview:hover,
+.articles-panel:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 1rem 0;
+}
+
+.sentiment-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sentiment-stat {
+  padding: 0;
+}
+
+.sentiment-stat.border-top {
+  border-top: 1px solid rgba(168, 85, 247, 0.2);
+  padding-top: 1rem;
+}
+
+.stat-label {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+}
+
+.sentiment-score {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.sentiment-score.bullish {
+  color: #22c55e;
+}
+
+.sentiment-score.bearish {
+  color: #ef4444;
+}
+
+.sentiment-score.neutral {
+  color: #eab308;
+}
+
+.sentiment-label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sentiment-label.bullish {
+  color: #86efac;
+}
+
+.sentiment-label.bearish {
+  color: #fca5a5;
+}
+
+.sentiment-label.neutral {
+  color: #facc15;
+}
+
+.trend-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #86efac;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.articles-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.articles-list::-webkit-scrollbar-track {
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 3px;
+}
+
+.articles-list::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.4);
+  border-radius: 3px;
+}
+
+.articles-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.6);
+}

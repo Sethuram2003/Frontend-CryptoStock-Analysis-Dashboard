@@ -1,0 +1,20 @@
+.price-chart-container {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.price-chart-container:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.chart-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 1rem 0;
+}
