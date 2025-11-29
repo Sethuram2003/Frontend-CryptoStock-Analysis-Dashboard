@@ -8,6 +8,7 @@ import { StockMetrics } from './components/StockMetrics/StockMetrics';
 import { PriceChart } from './components/PriceChart/PriceChart';
 import { SentimentPanel } from './components/SentimentPanel/SentimentPanel';
 import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner';
+import { ChatWidget } from './components/ChatWidget/ChatWidget';
 import { useCryptoData } from './hooks/useCryptoData';
 import { useStockData } from './hooks/useStockData';
 import './App.css';
@@ -120,6 +121,8 @@ function App() {
           </>
         )}
       </div>
+
+      <ChatWidget />
     </div>
   );
 }
