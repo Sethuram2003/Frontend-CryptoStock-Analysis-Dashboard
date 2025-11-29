@@ -16,6 +16,7 @@
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   overflow-x: hidden;
+  padding-top: 0;
 }
 
 .app::before {
@@ -45,6 +46,7 @@
   padding: 2rem;
   position: relative;
   z-index: 1;
+  padding-top: 2rem;
 }
 
 @media (max-width: 768px) {
