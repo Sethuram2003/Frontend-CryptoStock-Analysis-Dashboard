@@ -1,14 +1,22 @@
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, BarChart3 } from 'lucide-react';
 import './Header.css';
 
-export const Header = () => (
-  <header className="header">
-    <div className="header-content">
-      <div className="header-title">
-        <TrendingUp className="header-icon" />
-        <h1>Crypto Analytics Dashboard</h1>
+export const Header = ({ activeTab }) => {
+  const isCrypto = activeTab === 'crypto';
+  
+  return (
+    <header className="header">
+      <div className="header-content">
+        <div className="header-title">
+          {isCrypto ? <TrendingUp className="header-icon" /> : <BarChart3 className="header-icon" />}
+          <h1>{isCrypto ? 'Crypto Analytics Dashboard' : 'Stock Market Dashboard'}</h1>
+        </div>
+        <p className="header-subtitle">
+          {isCrypto 
+            ? 'Real-time cryptocurrency data and sentiment analysis' 
+            : 'Real-time stock market data and sentiment analysis'}
+        </p>
       </div>
-      <p className="header-subtitle">Real-time market data and sentiment analysis</p>
-    </div>
-  </header>
-);
+    </header>
+  );
+};

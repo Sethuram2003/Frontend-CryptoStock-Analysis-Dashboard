@@ -1,5 +1,6 @@
 .header {
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
+  margin-top: 1rem;
   animation: fadeIn 0.8s ease-out;
 }
 
