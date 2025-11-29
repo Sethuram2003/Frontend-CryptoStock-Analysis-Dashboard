@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, RefreshCw } from 'lucide-react';
 import './ChatWidget.css';
 
 const BASE_URL = 'https://crypto-and-stock-analysis-da-and-ag.vercel.app';
@@ -87,6 +87,18 @@ export const ChatWidget = () => {
     }
   };
 
+  const clearChat = () => {
+    setMessages([
+      {
+        id: Date.now(),
+        text: "Hi! I'm your AI assistant. Ask me anything about crypto or stocks!",
+        sender: 'bot',
+        timestamp: new Date()
+      }
+    ]);
+    setInputValue('');
+  };
+
   return (
     <>
       {/* Chat Button */}
@@ -115,13 +127,23 @@ export const ChatWidget = () => {
               </p>
             </div>
           </div>
-          <button
-            className="chat-close"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close chat"
-          >
-            <X />
-          </button>
+          <div className="chat-header-actions">
+            <button
+              className="chat-action-button"
+              onClick={clearChat}
+              aria-label="New chat"
+              title="Start new chat"
+            >
+              <RefreshCw />
+            </button>
+            <button
+              className="chat-close"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close chat"
+            >
+              <X />
+            </button>
+          </div>
         </div>
 
         {/* Messages */}

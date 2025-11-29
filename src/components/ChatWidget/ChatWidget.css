@@ -159,6 +159,12 @@
   }
 }
 
+.chat-header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-action-button,
 .chat-close {
   background: rgba(255, 255, 255, 0.2);
   border: none;
@@ -173,11 +179,20 @@
   color: white;
 }
 
+.chat-action-button:hover,
 .chat-close:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-action-button:hover {
+  transform: rotate(-180deg);
+}
+
+.chat-close:hover {
   transform: rotate(90deg);
 }
 
+.chat-action-button svg,
 .chat-close svg {
   width: 1.25rem;
   height: 1.25rem;
