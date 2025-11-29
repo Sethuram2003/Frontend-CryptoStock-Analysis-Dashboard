@@ -169,10 +169,10 @@
 .articles-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-height: 24rem;
+  gap: 1.25rem;
+  max-height: 32rem;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 0.75rem;
 }
 
 .articles-list::-webkit-scrollbar {
@@ -192,4 +192,22 @@
 
 .articles-list::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #c084fc 0%, #f472b6 100%);
+}
+
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.article-count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+  background: rgba(168, 85, 247, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
 }

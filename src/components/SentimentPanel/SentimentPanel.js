@@ -22,7 +22,7 @@ export const SentimentPanel = ({ sentimentData }) => {
   return (
     <div className="sentiment-grid">
       <div className="sentiment-overview">
-        <h2 className="panel-title">Sentiment Overview</h2>
+        <h2 className="panel-title">📊 Sentiment Overview</h2>
         <div className="sentiment-content">
           <div className="sentiment-stat">
             <p className="stat-label">Average Sentiment</p>
@@ -39,7 +39,10 @@ export const SentimentPanel = ({ sentimentData }) => {
       </div>
 
       <div className="articles-panel">
-        <h2 className="panel-title">Top Articles</h2>
+        <div className="panel-header">
+          <h2 className="panel-title">📰 Top Articles</h2>
+          <span className="article-count">{sentimentData.top_articles.length} articles</span>
+        </div>
         <div className="articles-list">
           {sentimentData.top_articles.map((article, idx) => (
             <ArticleCard key={idx} article={article} />
