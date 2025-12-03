@@ -59,8 +59,8 @@ The backend repository contains the API services, data aggregation logic, and AI
 
 1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
-cd frontend-CryptoStock
+git clone https://github.com/Sethuram2003/Crypto_-_Stock_Analysis_Frontend/tree/master
+cd Crypto_-_Stock_Analysis_Frontend
 ```
 
 2. **Install dependencies**
