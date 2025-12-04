@@ -6,7 +6,8 @@ A modern, professional web application for real-time cryptocurrency and stock ma
 
 ## 🌐 Live Demo
 
-**[View Live Application →](https://frontend-cryptostock.vercel.app/)**
+<!-- **[View Live Application →](https://frontend-cryptostock.vercel.app/)** -->
+**[View Live Application →](https://frontend-crypto-stock-analysis-dash.vercel.app/)**
 
 Experience the full application with real-time data, interactive charts, and AI-powered insights!
 
