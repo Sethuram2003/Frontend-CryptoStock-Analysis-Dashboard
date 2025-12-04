@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://178.156.209.160:8000";
+const BASE_URL = "https://cse542-group16.live";
 
 export const getCryptoData = async (coin_id) => {
   const response = await axios.get(`${BASE_URL}/get-crypto-data?coin_id=${coin_id}`);

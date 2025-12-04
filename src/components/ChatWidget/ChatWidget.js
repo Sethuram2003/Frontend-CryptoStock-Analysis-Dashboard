@@ -3,7 +3,7 @@ import { MessageCircle, X, Send, Bot, User, RefreshCw } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import './ChatWidget.css';
 
-const BASE_URL = 'http://178.156.209.160:8000';
+const BASE_URL = 'https://cse542-group16.live';
 
 export const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);

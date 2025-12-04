@@ -1,4 +1,4 @@
-const BASE_URL = 'http://178.156.209.160:8000';
+const BASE_URL = 'https://cse542-group16.live';
 
 export const cryptoApi = {
   getCryptoData: async (coinId) => {
