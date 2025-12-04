@@ -16,3 +16,4 @@ export const getCryptoHistorical = async (coin_id, days) => {
   const response = await axios.get(`${BASE_URL}/get-crypto-historical?coin_id=${coin_id}&days=${days}`);
   return response.data.message.data.prices;
 };
+
